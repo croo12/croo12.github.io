@@ -31,3 +31,6 @@ tsconfig.tsbuildinfo
 # WebAssembly
 *.wasm.d.ts
 core/build/
+
+# Rust
+core/target/
