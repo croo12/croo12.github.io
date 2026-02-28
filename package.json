@@ -1,37 +1,38 @@
 {
-  "name": "croo12",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "yarn wasm:build && tsc -b && vite build",
-    "wasm:build": "wasm-pack build core --target web --out-dir build",
-    "wasm:build:dev": "wasm-pack build core --target web --out-dir build --dev",
-    "wasm:test": "cargo test --manifest-path core/Cargo.toml",
-    "preview": "vite preview",
-    "lint": "biome lint .",
-    "format": "biome format --write .",
-    "test": "vitest run",
-    "test:watch": "vitest"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.4.4",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
-    "@types/node": "^25.3.2",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.4",
-    "@vitest/browser-playwright": "^4.0.18",
-    "playwright": "^1.58.2",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.1",
-    "vitest": "^4.0.18"
-  },
-  "dependencies": {
-    "@tanstack/react-query": "^5.90.21",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
-  }
+	"name": "croo12",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "yarn wasm:build && tsc -b && vite build",
+		"wasm:build": "wasm-pack build core --target web --out-dir build",
+		"wasm:build:dev": "wasm-pack build core --target web --out-dir build --dev",
+		"wasm:test": "cargo test --manifest-path core/Cargo.toml",
+		"preview": "vite preview",
+		"lint": "biome lint .",
+		"format": "biome format --write .",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.4",
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/react": "^16.3.2",
+		"@types/node": "^25.3.2",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^5.1.4",
+		"@vitest/browser-playwright": "^4.0.18",
+		"playwright": "^1.58.2",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1",
+		"vitest": "^4.0.18"
+	},
+	"dependencies": {
+		"@tanstack/react-query": "^5.90.21",
+		"react": "^19.2.4",
+		"react-dom": "^19.2.4",
+		"react-router-dom": "^7.13.1"
+	}
 }

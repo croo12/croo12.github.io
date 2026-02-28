@@ -1,93 +1,49 @@
-import { useQuery } from "@tanstack/react-query";
 import type React from "react";
-import { useEffect, useRef } from "react";
-import initGameCore, { greet } from "../../core/build/game_core";
-import { createWasmLoader } from "@/shared/wasm";
+import { HashRouter, NavLink, Route, Routes } from "react-router-dom";
+import { AboutPage } from "@/pages/about";
+import { BlogPage } from "@/pages/blog";
+import { GamePage } from "@/pages/game";
 
-const gameCoreQueryOptions = createWasmLoader("game-core", initGameCore);
+const navLinkStyle = ({
+	isActive,
+}: {
+	isActive: boolean;
+}): React.CSSProperties => ({
+	color: isActive ? "#4CAF50" : "#aaaaaa",
+	textDecoration: "none",
+	fontSize: "16px",
+	fontWeight: isActive ? "bold" : "normal",
+	padding: "8px 16px",
+});
 
 export const App: React.FC = () => {
-	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const { isSuccess } = useQuery(gameCoreQueryOptions);
-
-	useEffect(() => {
-		const canvas = canvasRef.current;
-		if (!canvas) return;
-
-		const ctx = canvas.getContext("2d");
-		if (!ctx) return;
-
-		let op = 0;
-		let dir = 0.05;
-
-		const text = isSuccess ? greet() : "Loading Wasm...";
-
-		const interval = setInterval(() => {
-			ctx.fillStyle = "#1e1e1e";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-			op += dir;
-			if (op > 1 || op < 0) dir = -dir;
-
-			ctx.fillStyle = `rgba(76, 175, 80, ${op})`;
-			ctx.font = "30px 'Segoe UI', sans-serif";
-			ctx.textAlign = "center";
-
-			ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-		}, 50);
-
-		return () => clearInterval(interval);
-	}, [isSuccess]);
-
 	return (
-		<div
-			style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-		>
-			<div
-				id="game-container"
+		<HashRouter>
+			<nav
 				style={{
-					width: "800px",
-					height: "600px",
-					backgroundColor: "#1e1e1e",
-					border: "2px solid #333",
-					borderRadius: "8px",
 					display: "flex",
-					alignItems: "center",
 					justifyContent: "center",
-					boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
-					marginBottom: "20px",
+					gap: "8px",
+					padding: "16px",
+					borderBottom: "1px solid #333",
+					marginBottom: "24px",
 				}}
 			>
-				<canvas ref={canvasRef} id="game-canvas" width="800" height="600">
-					브라우저가 Canvas를 지원하지 않습니다.
-				</canvas>
-			</div>
-
-			<div
-				className="controls"
-				style={{
-					padding: "15px",
-					background: "#252526",
-					borderRadius: "8px",
-					width: "800px",
-					boxSizing: "border-box",
-					textAlign: "center",
-				}}
-			>
-				<h1
-					style={{
-						marginTop: 0,
-						marginBottom: "10px",
-						fontSize: "24px",
-						color: "#4CAF50",
-					}}
-				>
-					My Awesome React Web Game
-				</h1>
-				<p style={{ margin: 0, color: "#aaaaaa", fontSize: "14px" }}>
-					Powered by React, WebAssembly & FSD Architecture.
-				</p>
-			</div>
-		</div>
+				<NavLink to="/" end style={navLinkStyle}>
+					Game
+				</NavLink>
+				<NavLink to="/blog" style={navLinkStyle}>
+					Blog
+				</NavLink>
+				<NavLink to="/about" style={navLinkStyle}>
+					About
+				</NavLink>
+			</nav>
+			<Routes>
+				<Route path="/" element={<GamePage />} />
+				<Route path="/blog" element={<BlogPage />} />
+				<Route path="/about" element={<AboutPage />} />
+			</Routes>
+		</HashRouter>
 	);
 };

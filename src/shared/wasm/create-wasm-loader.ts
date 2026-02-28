@@ -1,9 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
-export const createWasmLoader = <T>(
-	name: string,
-	initFn: () => Promise<T>,
-) => {
+export const createWasmLoader = <T>(name: string, initFn: () => Promise<T>) => {
 	let cached: Promise<T> | null = null;
 
 	return queryOptions({
