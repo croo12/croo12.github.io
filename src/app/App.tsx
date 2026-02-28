@@ -1,16 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
 import type React from "react";
-import { useEffect, useRef, useState } from "react";
-import init, { greet } from "../../core/build/game_core";
+import { useEffect, useRef } from "react";
+import initGameCore, { greet } from "../../core/build/game_core";
+import { createWasmLoader } from "@/shared/wasm";
+
+const gameCoreQueryOptions = createWasmLoader("game-core", initGameCore);
 
 export const App: React.FC = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const [wasmMessage, setWasmMessage] = useState<string | null>(null);
-
-	useEffect(() => {
-		init().then(() => {
-			setWasmMessage(greet());
-		});
-	}, []);
+	const { isSuccess } = useQuery(gameCoreQueryOptions);
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -21,6 +19,8 @@ export const App: React.FC = () => {
 
 		let op = 0;
 		let dir = 0.05;
+
+		const text = isSuccess ? greet() : "Loading Wasm...";
 
 		const interval = setInterval(() => {
 			ctx.fillStyle = "#1e1e1e";
@@ -33,12 +33,11 @@ export const App: React.FC = () => {
 			ctx.font = "30px 'Segoe UI', sans-serif";
 			ctx.textAlign = "center";
 
-			const text = wasmMessage ?? "Loading Wasm...";
 			ctx.fillText(text, canvas.width / 2, canvas.height / 2);
 		}, 50);
 
 		return () => clearInterval(interval);
-	}, [wasmMessage]);
+	}, [isSuccess]);
 
 	return (
 		<div
