@@ -22,6 +22,7 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
+      - run: yarn wasm:build
       - run: yarn lint
       - run: npx tsc -b
       - run: yarn test
