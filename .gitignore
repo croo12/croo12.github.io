@@ -34,3 +34,6 @@ core/build/
 
 # Rust
 core/target/
+
+# Claude Code
+**/.claude/*.json
