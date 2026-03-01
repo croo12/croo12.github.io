@@ -1,6 +1,7 @@
 import type React from "react";
 import { useCallback, useEffect, useRef } from "react";
 import { TileType, type WorldData } from "@/entities/tile";
+import type { WaterData } from "@/entities/water";
 import {
 	TILE_DEPTH,
 	TILE_HEIGHT,
@@ -13,6 +14,7 @@ import { useCamera } from "./use-camera";
 
 interface IsometricCanvasProps {
 	world: WorldData;
+	waterData: WaterData | null;
 	width: number;
 	height: number;
 }
@@ -41,38 +43,41 @@ const drawTile = (
 	sx: number,
 	sy: number,
 	tileType: number,
+	level: number,
 ): void => {
 	const faces = getTileFaces(tileType);
 	if (!faces) return;
 
 	const hw = TILE_WIDTH / 2;
 	const hh = TILE_HEIGHT / 2;
+	const tileHeight = (level / 8) * TILE_DEPTH;
+	const yOffset = TILE_DEPTH - tileHeight;
 
-	// Top face
+	// Top face — shifted down by yOffset
 	ctx.fillStyle = faces.top;
 	ctx.beginPath();
-	ctx.moveTo(sx, sy - hh);
-	ctx.lineTo(sx + hw, sy);
-	ctx.lineTo(sx, sy + hh);
-	ctx.lineTo(sx - hw, sy);
+	ctx.moveTo(sx, sy - hh + yOffset);
+	ctx.lineTo(sx + hw, sy + yOffset);
+	ctx.lineTo(sx, sy + hh + yOffset);
+	ctx.lineTo(sx - hw, sy + yOffset);
 	ctx.closePath();
 	ctx.fill();
 
-	// Left face
+	// Left face — height = tileHeight
 	ctx.fillStyle = faces.left;
 	ctx.beginPath();
-	ctx.moveTo(sx - hw, sy);
-	ctx.lineTo(sx, sy + hh);
+	ctx.moveTo(sx - hw, sy + yOffset);
+	ctx.lineTo(sx, sy + hh + yOffset);
 	ctx.lineTo(sx, sy + hh + TILE_DEPTH);
 	ctx.lineTo(sx - hw, sy + TILE_DEPTH);
 	ctx.closePath();
 	ctx.fill();
 
-	// Right face
+	// Right face — height = tileHeight
 	ctx.fillStyle = faces.right;
 	ctx.beginPath();
-	ctx.moveTo(sx + hw, sy);
-	ctx.lineTo(sx, sy + hh);
+	ctx.moveTo(sx + hw, sy + yOffset);
+	ctx.lineTo(sx, sy + hh + yOffset);
 	ctx.lineTo(sx, sy + hh + TILE_DEPTH);
 	ctx.lineTo(sx + hw, sy + TILE_DEPTH);
 	ctx.closePath();
@@ -81,6 +86,7 @@ const drawTile = (
 
 export const IsometricCanvas: React.FC<IsometricCanvasProps> = ({
 	world,
+	waterData,
 	width,
 	height,
 }) => {
@@ -114,18 +120,29 @@ export const IsometricCanvas: React.FC<IsometricCanvasProps> = ({
 			for (let y = 0; y < world.depth; y++) {
 				for (let x = 0; x < world.width; x++) {
 					const tile = world.getTile(x, y, z);
-					if (tile === TileType.Air) continue;
+					const waterLevel = waterData?.getLevel(x, y, z) ?? 0;
+
+					if (tile === TileType.Air && waterLevel === 0) continue;
 					if (isOccluded(world, x, y, z)) continue;
 
 					const sx = toScreenX(x, y);
 					const sy = toScreenY(x, y, z);
-					drawTile(ctx, sx, sy, tile);
+
+					// 고체 타일
+					if (tile !== TileType.Air && tile !== TileType.Water) {
+						drawTile(ctx, sx, sy, tile, 8);
+					}
+
+					// 물 렌더링 (Water 타일이거나 water level이 있는 경우)
+					if (waterLevel > 0) {
+						drawTile(ctx, sx, sy, TileType.Water, waterLevel);
+					}
 				}
 			}
 		}
 
 		ctx.restore();
-	}, [world]);
+	}, [world, waterData]);
 
 	useEffect(() => {
 		let rafId: number;

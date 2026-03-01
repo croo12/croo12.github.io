@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import type React from "react";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import initGameCore, {
 	create_world,
+	tick_water,
+	water_levels_len,
+	water_levels_ptr,
 	world_depth,
 	world_height,
 	world_tiles_len,
@@ -10,6 +13,7 @@ import initGameCore, {
 	world_width,
 } from "../../../../core/build/game_core";
 import { WorldData } from "@/entities/tile";
+import { WaterData } from "@/entities/water";
 import { IsometricCanvas } from "@/features/terrain-renderer";
 import { createWasmLoader } from "@/shared/wasm";
 import { colors, effects, layout, spacing } from "@/shared/theme";
@@ -20,6 +24,7 @@ const CANVAS_HEIGHT = 600;
 const WORLD_SIZE = 64;
 const WORLD_HEIGHT = 32;
 const SEED = 42;
+const TICK_INTERVAL_MS = 200;
 
 const gameCoreQueryOptions = createWasmLoader("game-core", initGameCore);
 
@@ -40,6 +45,26 @@ export const GamePage: React.FC = () => {
 		const tiles = new Uint8Array(wasmOutput.memory.buffer, ptr, len);
 		return new WorldData(w, d, h, tiles);
 	}, [isSuccess, wasmOutput]);
+
+	const waterData = useMemo(() => {
+		if (!isSuccess || !wasmOutput || !world) return null;
+		const ptr = water_levels_ptr();
+		const len = water_levels_len();
+		const levels = new Uint8Array(wasmOutput.memory.buffer, ptr, len);
+		return new WaterData(world.width, world.depth, world.height, levels);
+	}, [isSuccess, wasmOutput, world]);
+
+	useEffect(() => {
+		if (!wasmOutput || !waterData) return;
+		const interval = setInterval(() => {
+			tick_water();
+			const ptr = water_levels_ptr();
+			const len = water_levels_len();
+			const levels = new Uint8Array(wasmOutput.memory.buffer, ptr, len);
+			waterData.updateLevels(levels);
+		}, TICK_INTERVAL_MS);
+		return () => clearInterval(interval);
+	}, [wasmOutput, waterData]);
 
 	return (
 		<div
@@ -67,6 +92,7 @@ export const GamePage: React.FC = () => {
 				{world ? (
 					<IsometricCanvas
 						world={world}
+						waterData={waterData}
 						width={CANVAS_WIDTH}
 						height={CANVAS_HEIGHT}
 					/>
