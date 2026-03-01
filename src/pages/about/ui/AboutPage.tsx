@@ -3,17 +3,9 @@ import { colors, layout, spacing, typography } from "@/shared/theme";
 import { Body, SubTitle, Title, useTypewriter } from "@/shared/ui";
 
 const OVERVIEW_TEXT =
-	"WebAssembly 기반 웹 게임 프로젝트입니다. React + Vite 프론트엔드에서 Canvas 기반 게임을 렌더링하며, 네이티브 코드를 .wasm으로 빌드하여 브라우저에서 실행합니다.";
+	"WebAssembly 기술을 테스트하기 위한 실험 페이지입니다. 네이티브 코드를 .wasm으로 빌드하여 브라우저에서 실행하고, Canvas 기반으로 결과를 렌더링합니다.";
 
-const TECH_STACK = [
-	"React 19 + TypeScript",
-	"Vite (build tool)",
-	"WebAssembly (Rust / wasm-pack)",
-	"TanStack Query (async state)",
-	"Feature-Sliced Design (architecture)",
-	"Biome (lint & format)",
-	"GitHub Pages (deploy)",
-];
+const TECH_STACK = ["WebAssembly (Rust)", "React", "TypeScript"];
 
 const FSD_TREE = [
 	"src/",
@@ -30,9 +22,9 @@ const FSD_TREE = [
  * Step 1:     h2  "Project Overview"
  * Step 2:     p   overview text
  * Step 3:     h2  "Tech Stack"
- * Step 4–10:  li  tech stack items
- * Step 11:    h2  "FSD Architecture"
- * Step 12:    pre fsd tree (last — cursor stays)
+ * Step 4–6:   li  tech stack items
+ * Step 7:     h2  "FSD Architecture"
+ * Step 8:     pre fsd tree (last — cursor stays)
  */
 const TECH_STACK_START = 4;
 const FSD_HEADING_STEP = TECH_STACK_START + TECH_STACK.length;
