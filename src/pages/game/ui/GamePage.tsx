@@ -3,8 +3,13 @@ import type React from "react";
 import { useEffect, useRef } from "react";
 import initGameCore, { greet } from "../../../../core/build/game_core";
 import { createWasmLoader } from "@/shared/wasm";
-import { colors, effects, layout } from "@/shared/theme";
+import { colors, effects, layout, spacing, typography } from "@/shared/theme";
 import { Body, Title } from "@/shared/ui";
+
+const CANVAS_WIDTH = 800;
+const CANVAS_HEIGHT = 600;
+const FRAME_INTERVAL_MS = 50;
+const ACCENT_RGB = "76, 175, 80"; // colors.accent (#4caf50) in RGB
 
 const gameCoreQueryOptions = createWasmLoader("game-core", initGameCore);
 
@@ -31,12 +36,12 @@ export const GamePage: React.FC = () => {
 			op += dir;
 			if (op > 1 || op < 0) dir = -dir;
 
-			ctx.fillStyle = `rgba(76, 175, 80, ${op})`;
-			ctx.font = "30px 'Segoe UI', sans-serif";
+			ctx.fillStyle = `rgba(${ACCENT_RGB}, ${op})`;
+			ctx.font = `30px ${typography.fontPrimary}`;
 			ctx.textAlign = "center";
 
 			ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-		}, 50);
+		}, FRAME_INTERVAL_MS);
 
 		return () => clearInterval(interval);
 	}, [isSuccess]);
@@ -48,8 +53,8 @@ export const GamePage: React.FC = () => {
 			<div
 				id="game-container"
 				style={{
-					width: "800px",
-					height: "600px",
+					width: `${CANVAS_WIDTH}px`,
+					height: `${CANVAS_HEIGHT}px`,
 					backgroundColor: colors.bgTertiary,
 					border: `2px solid ${colors.border}`,
 					borderRadius: layout.radius,
@@ -57,10 +62,10 @@ export const GamePage: React.FC = () => {
 					alignItems: "center",
 					justifyContent: "center",
 					boxShadow: effects.shadowElevated,
-					marginBottom: "20px",
+					marginBottom: spacing.md,
 				}}
 			>
-				<canvas ref={canvasRef} id="game-canvas" width="800" height="600">
+				<canvas ref={canvasRef} id="game-canvas" width={CANVAS_WIDTH} height={CANVAS_HEIGHT}>
 					브라우저가 Canvas를 지원하지 않습니다.
 				</canvas>
 			</div>
@@ -68,10 +73,10 @@ export const GamePage: React.FC = () => {
 			<div
 				className="controls"
 				style={{
-					padding: "15px",
+					padding: spacing.md,
 					background: colors.bgElevated,
 					borderRadius: layout.radius,
-					width: "800px",
+					width: `${CANVAS_WIDTH}px`,
 					boxSizing: "border-box",
 					textAlign: "center",
 				}}

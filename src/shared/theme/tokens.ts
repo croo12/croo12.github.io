@@ -20,6 +20,15 @@ export const colors = {
 	borderHover: "#555555",
 } as const;
 
+export const spacing = {
+	xs: "8px",
+	sm: "12px",
+	md: "16px",
+	lg: "24px",
+	xl: "32px",
+	"2xl": "40px",
+} as const;
+
 export const layout = {
 	maxWidthContent: "960px",
 	maxWidthNarrow: "800px",

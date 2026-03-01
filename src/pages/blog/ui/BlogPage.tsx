@@ -1,13 +1,14 @@
 import type React from "react";
+import { layout, spacing } from "@/shared/theme";
 import { Body, Title } from "@/shared/ui";
 
 export const BlogPage: React.FC = () => {
 	return (
 		<div
 			style={{
-				maxWidth: "800px",
+				maxWidth: layout.maxWidthNarrow,
 				margin: "0 auto",
-				padding: "40px 20px",
+				padding: `${spacing["2xl"]} ${spacing.md}`,
 			}}
 		>
 			<Title>Blog</Title>

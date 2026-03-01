@@ -29,6 +29,14 @@
 	--color-border: #333333;
 	--color-border-hover: #555555;
 
+	/* ── Spacing ── */
+	--space-xs: 8px;
+	--space-sm: 12px;
+	--space-md: 16px;
+	--space-lg: 24px;
+	--space-xl: 32px;
+	--space-2xl: 40px;
+
 	/* ── Layout ── */
 	--max-width-content: 960px;
 	--max-width-narrow: 800px;

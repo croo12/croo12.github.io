@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { colors, layout } from "@/shared/theme";
+import { colors, layout, spacing, typography } from "@/shared/theme";
 import { Body, SubTitle, Title, useTypewriter } from "@/shared/ui";
 
 const OVERVIEW_TEXT =
@@ -79,7 +79,7 @@ export const AboutPage: React.FC = () => {
 			style={{
 				maxWidth: layout.maxWidthNarrow,
 				margin: "0 auto",
-				padding: "40px 20px",
+				padding: `${spacing["2xl"]} ${spacing.md}`,
 			}}
 		>
 			<Title>
@@ -87,7 +87,7 @@ export const AboutPage: React.FC = () => {
 			</Title>
 
 			{step >= 1 && (
-				<section style={{ marginBottom: "32px" }}>
+				<section style={{ marginBottom: spacing.xl }}>
 					<SubTitle>
 						<TypedLine
 							text="Project Overview"
@@ -112,7 +112,7 @@ export const AboutPage: React.FC = () => {
 			)}
 
 			{step >= 3 && (
-				<section style={{ marginBottom: "32px" }}>
+				<section style={{ marginBottom: spacing.xl }}>
 					<SubTitle>
 						<TypedLine
 							text="Tech Stack"
@@ -160,11 +160,11 @@ export const AboutPage: React.FC = () => {
 						<pre
 							style={{
 								background: colors.bgTertiary,
-								padding: "16px",
+								padding: spacing.md,
 								borderRadius: layout.radius,
 								color: colors.textMuted,
 								overflow: "auto",
-								lineHeight: 1.6,
+								lineHeight: typography.lineHeightBase,
 							}}
 						>
 							{fsd.displayedText}

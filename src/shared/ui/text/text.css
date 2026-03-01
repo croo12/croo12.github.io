@@ -1,16 +1,16 @@
 .title {
 	color: var(--color-accent);
-	margin-bottom: 24px;
+	margin-bottom: var(--space-lg);
 }
 
 .sub-title {
 	color: var(--color-text-secondary);
-	margin-bottom: 12px;
+	margin-bottom: var(--space-sm);
 }
 
 .body {
 	color: var(--color-text-muted);
-	line-height: 1.6;
+	line-height: var(--line-height-base);
 }
 
 .cursor::after {
