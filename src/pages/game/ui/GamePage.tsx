@@ -3,6 +3,8 @@ import type React from "react";
 import { useEffect, useRef } from "react";
 import initGameCore, { greet } from "../../../../core/build/game_core";
 import { createWasmLoader } from "@/shared/wasm";
+import { colors, effects, layout } from "@/shared/theme";
+import { Body, Title } from "@/shared/ui";
 
 const gameCoreQueryOptions = createWasmLoader("game-core", initGameCore);
 
@@ -23,7 +25,7 @@ export const GamePage: React.FC = () => {
 		const text = isSuccess ? greet() : "Loading Wasm...";
 
 		const interval = setInterval(() => {
-			ctx.fillStyle = "#1e1e1e";
+			ctx.fillStyle = colors.bgTertiary;
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 			op += dir;
@@ -48,13 +50,13 @@ export const GamePage: React.FC = () => {
 				style={{
 					width: "800px",
 					height: "600px",
-					backgroundColor: "#1e1e1e",
-					border: "2px solid #333",
-					borderRadius: "8px",
+					backgroundColor: colors.bgTertiary,
+					border: `2px solid ${colors.border}`,
+					borderRadius: layout.radius,
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
-					boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+					boxShadow: effects.shadowElevated,
 					marginBottom: "20px",
 				}}
 			>
@@ -67,26 +69,15 @@ export const GamePage: React.FC = () => {
 				className="controls"
 				style={{
 					padding: "15px",
-					background: "#252526",
-					borderRadius: "8px",
+					background: colors.bgElevated,
+					borderRadius: layout.radius,
 					width: "800px",
 					boxSizing: "border-box",
 					textAlign: "center",
 				}}
 			>
-				<h1
-					style={{
-						marginTop: 0,
-						marginBottom: "10px",
-						fontSize: "24px",
-						color: "#4CAF50",
-					}}
-				>
-					My Awesome React Web Game
-				</h1>
-				<p style={{ margin: 0, color: "#aaaaaa", fontSize: "14px" }}>
-					Powered by React, WebAssembly & FSD Architecture.
-				</p>
+				<Title>My Awesome React Web Game</Title>
+				<Body>Powered by React, WebAssembly & FSD Architecture.</Body>
 			</div>
 		</div>
 	);

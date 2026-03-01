@@ -1,0 +1,26 @@
+.title {
+	color: var(--color-accent);
+	margin-bottom: 24px;
+}
+
+.sub-title {
+	color: var(--color-text-secondary);
+	margin-bottom: 12px;
+}
+
+.body {
+	color: var(--color-text-muted);
+	line-height: 1.6;
+}
+
+.cursor::after {
+	content: "\258C";
+	color: var(--color-accent);
+	animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+	50% {
+		opacity: 0;
+	}
+}

@@ -1,0 +1,45 @@
+/*
+ * Design Theme: Dark Retro Gaming
+ *
+ * - Font: Galmuri11 (한국 레트로 픽셀 폰트, monospace)
+ * - Palette: 다크 그레이 배경 + 그린 액센트
+ * - Aesthetic: 다크 터미널 + 레트로 게임
+ *
+ * 모든 컬러·레이아웃 토큰의 단일 진실 원천(Single Source of Truth).
+ * 인라인 스타일용 TS 상수는 tokens.ts 참조.
+ */
+
+:root {
+	/* ── Background ── */
+	--color-bg-primary: #121212;
+	--color-bg-secondary: #1a1a1a;
+	--color-bg-tertiary: #1e1e1e;
+	--color-bg-elevated: #252526;
+
+	/* ── Text ── */
+	--color-text-primary: #ffffff;
+	--color-text-secondary: #e0e0e0;
+	--color-text-muted: #aaaaaa;
+	--color-text-hover: #cccccc;
+
+	/* ── Accent ── */
+	--color-accent: #4caf50;
+
+	/* ── Border ── */
+	--color-border: #333333;
+	--color-border-hover: #555555;
+
+	/* ── Layout ── */
+	--max-width-content: 960px;
+	--max-width-narrow: 800px;
+	--radius: 8px;
+
+	/* ── Typography ── */
+	--font-primary: "Galmuri11", monospace;
+	--font-size-base: 14px;
+	--line-height-base: 1.6;
+
+	/* ── Effects ── */
+	--shadow-elevated: 0 10px 30px rgba(0, 0, 0, 0.5);
+	--transition-fast: 0.15s;
+}

@@ -1,0 +1,44 @@
+.layout {
+	font-family: var(--font-primary);
+}
+
+.nav {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	padding: 16px 24px;
+	border-bottom: 4px solid var(--color-border);
+	background-color: var(--color-bg-secondary);
+}
+
+.nav-link {
+	color: var(--color-text-muted);
+	text-decoration: none;
+	font-size: var(--font-size-base);
+	padding: 8px 16px;
+	border: 2px solid transparent;
+	transition:
+		color var(--transition-fast),
+		border-color var(--transition-fast);
+}
+
+.nav-link:hover {
+	color: var(--color-text-hover);
+	border-color: var(--color-border-hover);
+}
+
+.nav-link-active {
+	color: var(--color-accent);
+	font-weight: bold;
+	border-color: var(--color-accent);
+}
+
+.nav-link-active::before {
+	content: "\25B6 ";
+}
+
+.main {
+	max-width: var(--max-width-content);
+	margin: 0 auto;
+	padding: 24px 16px;
+}
